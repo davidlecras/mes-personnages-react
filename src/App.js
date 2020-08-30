@@ -1,24 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Title from "./components/title/Title";
+import Button from "./components/buttons/Buttons";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="container">
+      <Title>Générateur de personnages</Title>
+      <div>Personnage</div>
+      <div>Armes</div>
+      <div className="row no-gutters">
+        <Button
+          css="col-6"
+          btnType="btn-danger"
+          clic={() => {
+            return console.log("réinitialiser");
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          Réinitialiser
+        </Button>
+        <Button
+          css="col-6"
+          btnType="btn-success"
+          clic={() => {
+            return console.log("créer");
+          }}
+        >
+          Créer
+        </Button>
+      </div>
     </div>
   );
 }

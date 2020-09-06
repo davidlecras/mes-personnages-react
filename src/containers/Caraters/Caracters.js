@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import ImageCaracter from "./ImageCaracter/ImageCaracter"
+import ImageCaracter from "./ImageCaracter/ImageCaracter";
+import CaracteristicsCaracter from './CaracteristicsCaracter/caracteristicsCarater'
 
 class Caracters extends Component {
   render() {
@@ -13,9 +14,7 @@ class Caracters extends Component {
         /> 
         </div>
         <div className="col-6">
-          Force: {this.props.force} <br />
-          Agilite: {this.props.agilite} <br />
-          Intelligence: {this.props.intelligence} <br />
+        <CaracteristicsCaracter pointsAvbl={this.props.points} force={this.props.force} agility={this.props.agilite} intelligence={this.props.intelligence}/>
         </div>
       </div>
     );

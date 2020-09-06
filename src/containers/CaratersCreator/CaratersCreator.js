@@ -5,7 +5,8 @@ import Caracters from "../Caraters/Caracters"
 
 class CaratersCreator extends Component {
   state={
-    caracter:{id:1, image:1, force:0, agilite:0, intelligence:0}
+    caracter:{image:1, force:2, agilite:3, intelligence:1},
+    points:7,
   };
   previousImageHandler=()=>{
     this.setState(oldState=>{
@@ -31,6 +32,7 @@ class CaratersCreator extends Component {
         <Caracters {...this.state.caracter}
           previous={this.previousImageHandler}
           next={this.nextImageHandler}
+          points= {this.state.points}
         />
       <div>Armes</div>
       <div className="row no-gutters">

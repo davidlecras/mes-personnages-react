@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import Title from "../../components/title/Title";
 import Button from "../../components/buttons/Buttons";
 import Caracters from "../Caraters/Caracters";
+import Weapons from "../Weapons/Weapons";
 
 class CaratersCreator extends Component {
   state = {
     caracter: { image: 1, force: 0, agility: 0, intelligence: 0 },
     points: 7,
+    weapons: ["epee", "fleau", "arc", "hache"],
   };
   previousImageHandler = () => {
     this.setState((oldState) => {
@@ -66,7 +68,7 @@ class CaratersCreator extends Component {
           addPoints={this.addPointsHandler}
           removePoints={this.removePointsHandler}
         />
-        <div>Armes</div>
+        <Weapons weaponsList={this.state.weapons} />
         <div className="row no-gutters">
           <Button
             css="col-6"

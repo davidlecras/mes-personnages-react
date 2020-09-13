@@ -24,7 +24,13 @@ const weapons = (props) => {
             weaponImg = ImgFlail;
         }
         return (
-          <Weapon key={arme} weaponImage={weaponImg} className="col-3">
+          <Weapon
+            key={arme}
+            weaponImage={weaponImg}
+            className="col-3"
+            isCurrentWeapon={props.currentCaracterWeapon === arme}
+            click= {()=>props.changeWeaponCaracter(arme)}
+          >
             {arme}{" "}
           </Weapon>
         );

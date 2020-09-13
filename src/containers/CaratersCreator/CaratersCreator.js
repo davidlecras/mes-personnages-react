@@ -6,7 +6,7 @@ import Weapons from "../Weapons/Weapons";
 
 class CaratersCreator extends Component {
   state = {
-    caracter: { image: 1, force: 0, agility: 0, intelligence: 0 },
+    caracter: { image: 1, force: 0, agility: 0, intelligence: 0, weapon: null },
     points: 7,
     weapons: ["epee", "fleau", "arc", "hache"],
   };
@@ -56,6 +56,24 @@ class CaratersCreator extends Component {
     });
   };
 
+  changeWeaponCaracterHandler = (weapon) => {
+    const newCaracter = { ...this.state.caracter };
+    newCaracter.weapon = weapon;
+    this.setState({ caracter: newCaracter });
+  };
+
+  createCaracterHandler= ()=>{
+    alert ("Personnage créé!")
+  }
+
+  reinstateCaracter= ()=>{
+    this.setState({
+      caracter: { image: 1, force: 0, agility: 0, intelligence: 0, weapon: null },
+      points: 7,
+      weapons: ["epee", "fleau", "arc", "hache"],
+    })
+  }
+  
   render() {
     return (
       <div className="container">
@@ -68,23 +86,22 @@ class CaratersCreator extends Component {
           addPoints={this.addPointsHandler}
           removePoints={this.removePointsHandler}
         />
-        <Weapons weaponsList={this.state.weapons} />
+        <Weapons weaponsList={this.state.weapons}
+        changeWeaponCaracter={this.changeWeaponCaracterHandler}
+        currentCaracterWeapon= {this.state.caracter.weapon}
+        />
         <div className="row no-gutters">
           <Button
             css="col-6"
             btnType="btn-danger"
-            clic={() => {
-              return console.log("réinitialiser");
-            }}
+            clic={this.reinstateCaracter}
           >
             Réinitialiser
           </Button>
           <Button
             css="col-6"
             btnType="btn-success"
-            clic={() => {
-              return console.log("créer");
-            }}
+            clic={this.createCaracterHandler}
           >
             Créer
           </Button>

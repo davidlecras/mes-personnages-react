@@ -11,13 +11,13 @@ const weapons = (props) => {
       {props.weaponsList.map((arme) => {
         let weaponImg;
         switch (arme) {
-          case "arc":
+          case "bow":
             weaponImg = ImgBow;
             break;
-          case "epee":
+          case "sword":
             weaponImg = ImgSword;
             break;
-          case "hache":
+          case "axe":
             weaponImg = ImgAxe;
             break;
           default:

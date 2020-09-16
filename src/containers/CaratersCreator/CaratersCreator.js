@@ -10,29 +10,31 @@ class CaratersCreator extends Component {
     caracter: { image: 1, force: 0, agility: 0, intelligence: 0, weapon: null },
     points: 7,
     weapons: null,
-    loading: false
+    loading: false,
+    creator: " "
   };
 
-  componentDidMount=()=>{
+  componentDidMount = () => {
     // Afficher le message pour le chargement
-    this.setState({loading:true});
+    this.setState({ loading: true });
     // Aller chercher les infos dans la DB et modifier le state:
-    axios.get("https://caractergeneratorreact.firebaseio.com/weapons.json")
-        .then(response =>{
-          //Object.values: Récupérer uniquement les valeurs d'un objet et transformer les valeurs en Array
-          const weaponsArray= Object.values(response.data);
-          this.setState({
-            weapons: weaponsArray,
-            loading: false
-          })
-        })
-        .catch(error=>{
-          console.log(error);
-          this.setState({
-            loading:false
-          })
-        })
-  }
+    axios
+      .get("https://caractergeneratorreact.firebaseio.com/weapons.json")
+      .then((response) => {
+        //Object.values: Récupérer uniquement les valeurs d'un objet et transformer les valeurs en Array
+        const weaponsArray = Object.values(response.data);
+        this.setState({
+          weapons: weaponsArray,
+          loading: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          loading: false,
+        });
+      });
+  };
   previousImageHandler = () => {
     this.setState((oldState) => {
       const newCaracter = { ...this.state.caracter };
@@ -85,22 +87,54 @@ class CaratersCreator extends Component {
     this.setState({ caracter: newCaracter });
   };
 
-  createCaracterHandler= ()=>{
-    alert ("Personnage créé!")
-  }
+  createCaracterHandler = () => {
+    this.setState({loading:true})
+    const player = {
+      caracter: { ...this.state.caracter },
+      nameOfCreator: this.state.creator,
+    };
+    axios.post("https://caractergeneratorreact.firebaseio.com/caracters.json", player)
+        .then(
+          response=>
+          console.log(response),
+          this.setState({loading:false}),
+          this.reinstateCaracter()
+          )
+        .catch(error=>
+          console.log(error),
+          this.setState({loading:false}),
+          this.reinstateCaracter()
+          )
+  };
 
-  reinstateCaracter= ()=>{
+  reinstateCaracter = () => {
     this.setState({
-      caracter: { image: 1, force: 0, agility: 0, intelligence: 0, weapon: null },
+      caracter: {
+        image: 1,
+        force: 0,
+        agility: 0,
+        intelligence: 0,
+        weapon: null,
+      },
       points: 7,
       weapons: ["epee", "fleau", "arc", "hache"],
-    })
-  }
-  
+      creator: " "
+    });
+  };
+
   render() {
     return (
       <div className="container">
         <Title>Générateur de personnages</Title>
+        {this.state.loading && (
+          <div className="text-center alert alert-info">
+            Chargement en cours...
+          </div>
+        )}
+        <div className="form-group">
+          <label htmlFor="inpName">Votre nom</label>
+          <input type="text" className="form-control" id="inpName" value={this.state.creator} onChange={event=>this.setState({creator: event.target.value})}/>
+        </div>
         <Caracters
           {...this.state.caracter}
           previous={this.previousImageHandler}
@@ -109,16 +143,13 @@ class CaratersCreator extends Component {
           addPoints={this.addPointsHandler}
           removePoints={this.removePointsHandler}
         />
-        {
-          this.state.loading && <div className="text-center alert alert-info">Chargement en cours...</div>
-        }
-        {
-          this.state.weapons &&
-          <Weapons weaponsList={this.state.weapons}
-        changeWeaponCaracter={this.changeWeaponCaracterHandler}
-        currentCaracterWeapon= {this.state.caracter.weapon}
-        />
-        }
+        {this.state.weapons && (
+          <Weapons
+            weaponsList={this.state.weapons}
+            changeWeaponCaracter={this.changeWeaponCaracterHandler}
+            currentCaracterWeapon={this.state.caracter.weapon}
+          />
+        )}
         <div className="row no-gutters">
           <Button
             css="col-6"

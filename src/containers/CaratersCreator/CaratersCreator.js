@@ -3,13 +3,36 @@ import Title from "../../components/title/Title";
 import Button from "../../components/buttons/Buttons";
 import Caracters from "../Caraters/Caracters";
 import Weapons from "../Weapons/Weapons";
+import axios from "axios";
 
 class CaratersCreator extends Component {
   state = {
     caracter: { image: 1, force: 0, agility: 0, intelligence: 0, weapon: null },
     points: 7,
-    weapons: ["epee", "fleau", "arc", "hache"],
+    weapons: null,
+    loading: false
   };
+
+  componentDidMount=()=>{
+    // Afficher le message pour le chargement
+    this.setState({loading:true});
+    // Aller chercher les infos dans la DB et modifier le state:
+    axios.get("https://caractergeneratorreact.firebaseio.com/weapons.json")
+        .then(response =>{
+          //Object.values: Récupérer uniquement les valeurs d'un objet et transformer les valeurs en Array
+          const weaponsArray= Object.values(response.data);
+          this.setState({
+            weapons: weaponsArray,
+            loading: false
+          })
+        })
+        .catch(error=>{
+          console.log(error);
+          this.setState({
+            loading:false
+          })
+        })
+  }
   previousImageHandler = () => {
     this.setState((oldState) => {
       const newCaracter = { ...this.state.caracter };
@@ -86,10 +109,16 @@ class CaratersCreator extends Component {
           addPoints={this.addPointsHandler}
           removePoints={this.removePointsHandler}
         />
-        <Weapons weaponsList={this.state.weapons}
+        {
+          this.state.loading && <div className="text-center alert alert-info">Chargement en cours...</div>
+        }
+        {
+          this.state.weapons &&
+          <Weapons weaponsList={this.state.weapons}
         changeWeaponCaracter={this.changeWeaponCaracterHandler}
         currentCaracterWeapon= {this.state.caracter.weapon}
         />
+        }
         <div className="row no-gutters">
           <Button
             css="col-6"

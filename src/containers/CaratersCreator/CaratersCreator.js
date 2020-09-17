@@ -11,7 +11,7 @@ class CaratersCreator extends Component {
     points: 7,
     weapons: null,
     loading: false,
-    creator: " "
+    creator: " ",
   };
 
   componentDidMount = () => {
@@ -88,23 +88,27 @@ class CaratersCreator extends Component {
   };
 
   createCaracterHandler = () => {
-    this.setState({loading:true})
+    this.setState({ loading: true });
     const player = {
       caracter: { ...this.state.caracter },
       nameOfCreator: this.state.creator,
     };
-    axios.post("https://caractergeneratorreact.firebaseio.com/caracters.json", player)
-        .then(
-          response=>
-          console.log(response),
-          this.setState({loading:false}),
-          this.reinstateCaracter()
-          )
-        .catch(error=>
-          console.log(error),
-          this.setState({loading:false}),
-          this.reinstateCaracter()
-          )
+    axios
+      .post(
+        "https://caractergeneratorreact.firebaseio.com/caracters.json",
+        player
+      )
+      .then(
+        (response) => console.log(response),
+        this.setState({ loading: false }),
+        this.reinstateCaracter(),
+        this.props.refresh
+      )
+      .catch(
+        (error) => console.log(error),
+        this.setState({ loading: false }),
+        this.reinstateCaracter()
+      );
   };
 
   reinstateCaracter = () => {
@@ -118,7 +122,7 @@ class CaratersCreator extends Component {
       },
       points: 7,
       weapons: ["epee", "fleau", "arc", "hache"],
-      creator: " "
+      creator: " ",
     });
   };
 
@@ -133,7 +137,13 @@ class CaratersCreator extends Component {
         )}
         <div className="form-group">
           <label htmlFor="inpName">Nom du personnage:</label>
-          <input type="text" className="form-control" id="inpName" value={this.state.creator} onChange={event=>this.setState({creator: event.target.value})}/>
+          <input
+            type="text"
+            className="form-control"
+            id="inpName"
+            value={this.state.creator}
+            onChange={(event) => this.setState({ creator: event.target.value })}
+          />
         </div>
         <Caracters
           {...this.state.caracter}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Title from "../../components/title/Title";
-import SingleCaracter from "./SingleCaracter/singleCaracter"
+import SingleCaracter from "./SingleCaracter/singleCaracter";
 
 class ListOfAllCaracters extends Component {
   state = {
@@ -9,7 +9,7 @@ class ListOfAllCaracters extends Component {
     loading: false,
   };
 
-  componentDidMount = () => {
+  loadData = () => {
     this.setState({ loading: true });
     axios
       .get("https://caractergeneratorreact.firebaseio.com/caracters.json")
@@ -22,6 +22,16 @@ class ListOfAllCaracters extends Component {
         this.setState({ loading: false });
       });
   };
+
+  componentDidMount = () => {
+    this.loadData();
+  };
+
+  componentDidUpdate = (oldProps, oldState) => {
+    if (oldProps.refresh !== this.props.refresh) {
+      this.loadData();
+    }
+  };
   render() {
     return (
       <>
@@ -32,7 +42,7 @@ class ListOfAllCaracters extends Component {
               return (
                 <div key={index} className="col-6">
                   <Title>{caracter.nameOfCreator}</Title>
-                  <SingleCaracter {...caracter.caracter}/>
+                  <SingleCaracter {...caracter.caracter} />
                 </div>
               );
             })}

@@ -10,18 +10,23 @@ const weapons = (props) => {
     <div className="row no-gutters text-center">
       {props.weaponsList.map((arme) => {
         let weaponImg;
+        let weaponName;
         switch (arme) {
           case "bow":
             weaponImg = ImgBow;
+            weaponName= 'Arc'
             break;
           case "sword":
             weaponImg = ImgSword;
+            weaponName= 'Épée'
             break;
           case "axe":
             weaponImg = ImgAxe;
+            weaponName= 'Hache'
             break;
           default:
             weaponImg = ImgFlail;
+            weaponName= 'Fléau d\'arme'
         }
         return (
           <Weapon
@@ -31,7 +36,7 @@ const weapons = (props) => {
             isCurrentWeapon={props.currentCaracterWeapon === arme}
             click= {()=>props.changeWeaponCaracter(arme)}
           >
-            {arme}{" "}
+            {weaponName}{" "}
           </Weapon>
         );
       })}

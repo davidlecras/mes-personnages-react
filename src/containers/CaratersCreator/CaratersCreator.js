@@ -132,7 +132,7 @@ class CaratersCreator extends Component {
           </div>
         )}
         <div className="form-group">
-          <label htmlFor="inpName">Votre nom</label>
+          <label htmlFor="inpName">Nom du personnage:</label>
           <input type="text" className="form-control" id="inpName" value={this.state.creator} onChange={event=>this.setState({creator: event.target.value})}/>
         </div>
         <Caracters

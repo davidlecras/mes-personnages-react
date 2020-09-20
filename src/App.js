@@ -8,8 +8,11 @@ class App extends Component {
   }
 
   refreshHandler= ()=>{
-    this.setState({refresh:true})
-  }
+    this.setState((oldState)=>{
+      return{
+        refresh: !oldState.refresh
+      }
+  })}
   render() {
     return (
       <>
